@@ -79,7 +79,7 @@ void gpio_init()
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 
 	//GPIOH configuration: pin H5 in output push-pull (center right emitter)
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -94,8 +94,8 @@ void gpio_init()
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 
-	//GPIOH configuration: pin H6 in output push-pull (left emitter)
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+	//GPIOH configuration: pin H1 in output push-pull (left emitter)
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;

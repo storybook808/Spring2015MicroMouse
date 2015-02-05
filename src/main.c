@@ -192,9 +192,9 @@ int main(void)
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
 
 	// Turn on emitters
-	GPIO_ResetBits(GPIOH, GPIO_Pin_6);
-	GPIO_SetBits(GPIOC, GPIO_Pin_15);
-	GPIO_ResetBits(GPIOH, GPIO_Pin_5);
+	GPIO_ResetBits(GPIOH, GPIO_Pin_1);
+	GPIO_ResetBits(GPIOC, GPIO_Pin_15);
+	GPIO_ResetBits(GPIOH, GPIO_Pin_0);
 	GPIO_ResetBits(GPIOC, GPIO_Pin_14);
 
 	do
@@ -242,38 +242,47 @@ int main(void)
 	GPIO_ResetBits(GPIOA, GPIO_Pin_6);
 
 	// Turn on emitters
-	GPIO_ResetBits(GPIOH, GPIO_Pin_6);
-	GPIO_SetBits(GPIOC, GPIO_Pin_15);
-	GPIO_ResetBits(GPIOH, GPIO_Pin_5);
+	GPIO_ResetBits(GPIOH, GPIO_Pin_1);
+	//GPIO_SetBits(GPIOC, GPIO_Pin_15);
+	GPIO_ResetBits(GPIOC, GPIO_Pin_15);
+	GPIO_ResetBits(GPIOH, GPIO_Pin_0);
 	GPIO_ResetBits(GPIOC, GPIO_Pin_14);
 
 	while (1)
 	{
+		GPIO_ResetBits(GPIOH, GPIO_Pin_1);
+		GPIO_ResetBits(GPIOC, GPIO_Pin_15);
+		GPIO_ResetBits(GPIOH, GPIO_Pin_0);
+		GPIO_ResetBits(GPIOC, GPIO_Pin_14);
+
 		sensor_level[0] = ADC1ConvertedValue[0] *3.3/0xFFF;
 		sensor_level[1] = ADC1ConvertedValue[1] *3.3/0xFFF;
 		sensor_level[2] = ADC1ConvertedValue[2] *3.3/0xFFF;
 		sensor_level[3] = ADC1ConvertedValue[3] *3.3/0xFFF;
 		battery_level   = ADC1ConvertedValue[4] *3.3/0xFFF;
 
-		if(sensor_level[1] >=1.0 /*GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13)*/)
-		{
-			GPIO_SetBits(GPIOC, GPIO_Pin_0); // Turn on  LED
+		GPIO_ResetBits(GPIOB, GPIO_Pin_11); // Turn on white LED [1]
+		GPIO_ResetBits(GPIOB, GPIO_Pin_10);  // Turn on yellow LED [2]
 
-			CCRR_Val = 0;
-			CCRL_Val = 0;
-			Buzzer_Val = 0;
-		}
-		else
-		{
-			GPIO_ResetBits(GPIOC, GPIO_Pin_0); // Turn off  LED
-
-			GPIO_SetBits(GPIOB, GPIO_Pin_9); // Right direction bit
-			GPIO_ResetBits(GPIOB, GPIO_Pin_7); // Left direction bit
-
-			CCRR_Val = 100;
-			CCRL_Val = 100;
-			Buzzer_Val = 111;
-		}
+//		if(sensor_level[1] >=1.0 /*GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13)*/)
+//		{
+//			GPIO_SetBits(GPIOC, GPIO_Pin_0); // Turn on  LED
+//
+//			CCRR_Val = 0;
+//			CCRL_Val = 0;
+//			Buzzer_Val = 0;
+//		}
+//		else
+//		{
+//			GPIO_ResetBits(GPIOC, GPIO_Pin_0); // Turn off  LED
+//
+//			GPIO_SetBits(GPIOB, GPIO_Pin_9); // Right direction bit
+//			GPIO_ResetBits(GPIOB, GPIO_Pin_7); // Left direction bit
+//
+//			CCRR_Val = 100;
+//			CCRL_Val = 100;
+//			Buzzer_Val = 111;
+//		}
 //
 //		if(sensor_level[0]>=1.0)
 //		{
@@ -302,38 +311,38 @@ int main(void)
 //			GPIO_ResetBits(GPIOA, GPIO_Pin_6); // Turn off LED
 //		}
 //
-		if(CCRL_Val < 50)
-		{
-			GPIO_ResetBits(GPIOB, GPIO_Pin_7); // Left direction bit
-//			GPIO_SetBits(GPIOB, GPIO_Pin_11);  // Turn on blue LED
-		}
-		else
-		{
-//			GPIO_ResetBits(GPIOB, GPIO_Pin_11); //Turn off blue LED
-		}
-
-
-		if(CCRR_Val < 50)
-		{
-			GPIO_ResetBits(GPIOB, GPIO_Pin_9); // Right direction bit
-//			GPIO_SetBits(GPIOB, GPIO_Pin_10);  // Turn on yellow LED
-		}
-		else
-		{
-//			GPIO_ResetBits(GPIOB, GPIO_Pin_10); // Turn off yellow LED
-		}
-
-		/* PWM1 Mode configuration: Channel1 */
-		TIM_OCInitStructure.TIM_Pulse = CCRL_Val;
-		TIM_OC1Init(TIM4, &TIM_OCInitStructure);
-
-		/* PWM1 Mode configuration: Channel3 */
-		TIM_OCInitStructure.TIM_Pulse = CCRR_Val;
-		TIM_OC3Init(TIM4, &TIM_OCInitStructure);
-
-		/* PWM1 Mode configuration: TIM Channel1 */
-		TIM_OCInitStructure.TIM_Pulse = Buzzer_Val;
-		TIM_OC1Init(TIM3, &TIM_OCInitStructure);
+//		if(CCRL_Val < 50)
+//		{
+//			GPIO_ResetBits(GPIOB, GPIO_Pin_7); // Left direction bit
+////			GPIO_SetBits(GPIOB, GPIO_Pin_11);  // Turn on blue LED
+//		}
+//		else
+//		{
+////			GPIO_ResetBits(GPIOB, GPIO_Pin_11); //Turn off blue LED
+//		}
+//
+//
+//		if(CCRR_Val < 50)
+//		{
+//			GPIO_ResetBits(GPIOB, GPIO_Pin_9); // Right direction bit
+////			GPIO_SetBits(GPIOB, GPIO_Pin_10);  // Turn on yellow LED
+//		}
+//		else
+//		{
+////			GPIO_ResetBits(GPIOB, GPIO_Pin_10); // Turn off yellow LED
+//		}
+//
+//		/* PWM1 Mode configuration: Channel1 */
+//		TIM_OCInitStructure.TIM_Pulse = CCRL_Val;
+//		TIM_OC1Init(TIM4, &TIM_OCInitStructure);
+//
+//		/* PWM1 Mode configuration: Channel3 */
+//		TIM_OCInitStructure.TIM_Pulse = CCRR_Val;
+//		TIM_OC3Init(TIM4, &TIM_OCInitStructure);
+//
+//		/* PWM1 Mode configuration: TIM Channel1 */
+//		TIM_OCInitStructure.TIM_Pulse = Buzzer_Val;
+//		TIM_OC1Init(TIM3, &TIM_OCInitStructure);
 	}
 }
 
